@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1>Hello world</h1>
-    <form>
+    <form @submit.prevent="onSubmit">
       <div class="form-group">
         <label for="email">Email</label>
         <input
@@ -46,6 +46,11 @@
           Password should match
         </div>
       </div>
+      <button
+          type="submit"
+          class="btn btn-success"
+          :disabled="$v.$invalid"
+      >Submit</button>
     </form>
   </div>
 </template>
@@ -65,6 +70,12 @@ export default {
       confirmPassword: ''
     }
   },
+  methods: {
+    onSubmit(){
+      console.log('Email', this.email);
+      console.log('Password', this.password);
+    }
+  },
   validations: {
     email: {
       required,
@@ -77,10 +88,10 @@ export default {
       minLength: minLength(6)
     },
     confirmPassword: {
-      // sameAs: sameAs('password')
-      sameAs: sameAs((vue) => {
-        return vue.form.password
-      })
+      sameAs: sameAs('password')
+      // sameAs: sameAs((vue) => {
+      //   return vue.form.password
+      // })
     }
   }
 }
